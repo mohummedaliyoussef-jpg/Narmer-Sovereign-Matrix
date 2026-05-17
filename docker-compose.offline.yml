@@ -1,0 +1,64 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.offline
+    container_name: narmer_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_MODEL=llama3.2
+      - STORAGE_MODE=sqlite
+      - DATABASE_URL=sqlite:///data/narmer.db
+      - NARMER_MODE=offline
+    volumes:
+      - narmer_data:/app/data
+    depends_on:
+      - ollama
+    restart: unless-stopped
+    networks:
+      - narmer_offline
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: narmer_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    networks:
+      - narmer_offline
+
+  frontend:
+    image: nginx:alpine
+    container_name: narmer_frontend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.offline.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./narmer-dashboard/build:/usr/share/nginx/html:ro
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - narmer_offline
+
+volumes:
+  narmer_data:
+  ollama_models:
+
+networks:
+  narmer_offline:
+    name: narmer_offline_network

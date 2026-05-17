@@ -1,0 +1,58 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+<system-security-plan xmlns="http://csrc.nist.gov/ns/oscal/1.0">
+  <metadata>
+    <title>Narmer Enterprise RBAC API - System Security Plan</title>
+    <last-modified>2026-04-26T00:00:00Z</last-modified>
+    <version>1.0</version>
+    <oscal-version>1.0.0</oscal-version>
+  </metadata>
+  <system-characteristics>
+    <security-impact-level>fips-199-moderate</security-impact-level>
+    <status>operational</status>
+    <authorization-boundary>
+      <description>API backend with JWT authentication and RBAC authorization, backed by SQLite.</description>
+    </authorization-boundary>
+  </system-characteristics>
+  <system-implementation>
+    <leveraged-authorizations>
+      <!-- شهادات مستقبلية -->
+    </leveraged-authorizations>
+    <users>
+      <user uuid="admin">
+        <title>Administrator</title>
+        <role>admin</role>
+      </user>
+    </users>
+    <components>
+      <component uuid="api-server" type="software">
+        <title>FastAPI Application</title>
+        <description>Exposes REST endpoints with role-based access control.</description>
+        <status>operational</status>
+        <responsible-role>admin</responsible-role>
+        <implemented-requirements>
+          <implemented-requirement uuid="ac-1" control-id="ac-1">
+            <description>Access Control Policy and Procedures</description>
+            <remarks>The system enforces RBAC with three roles: admin, analyst, viewer.</remarks>
+          </implemented-requirement>
+          <implemented-requirement uuid="ac-3" control-id="ac-3">
+            <description>Access Enforcement</description>
+            <remarks>All API routes are protected with JWT; endpoints are restricted via `require_role` dependencies.</remarks>
+          </implemented-requirement>
+          <implemented-requirement uuid="ia-1" control-id="ia-1">
+            <description>Identification and Authentication Policy</description>
+            <remarks>JWT with HS256; token expires in 60 minutes.</remarks>
+          </implemented-requirement>
+          <implemented-requirement uuid="sc-13" control-id="sc-13">
+            <description>Cryptographic Protection</description>
+            <remarks>Passwords hashed with bcrypt; secrets managed via environment variables.</remarks>
+          </implemented-requirement>
+        </implemented-requirements>
+      </component>
+    </components>
+  </system-implementation>
+  <back-matter>
+    <resources>
+      <!-- مراجع خارجية -->
+    </resources>
+  </back-matter>
+</system-security-plan>

@@ -1,0 +1,19 @@
+HUGGINGFACE_API_KEY=hf_hf_QYqPBTScrIIkHqiBKeMBlOOxUpamKLOSUS
+type .gitignore
+# --- إعدادات MongoDB ---
+MONGO_URI=mongodb://localhost:27017/auth_demo
+
+# --- إعدادات Mailtrap (للتطوير فقط، استبدلها في الإنتاج) ---
+MAILTRAP_API_TOKEN=2bcdbabbcd370153fe535582e68dfa7e
+MAILTRAP_INBOX_ID=4583025
+
+# --- UAE Pass Configuration ---
+UAEPASS_CLIENT_ID=your_uaepass_client_id
+UAEPASS_CLIENT_SECRET=your_uaepass_client_secret
+UAEPASS_REDIRECT_URI=http://localhost:3000/auth/uaepass/callback
+UAEPASS_ENVIRONMENT=staging   # أو production
+# نطاقات البيانات المطلوبة (scopes)
+UAEPASS_SCOPE=openid urn:uae:digitalid:profile:general urn:uae:digitalid:profile:general:unifiedId
+
+# --- مفتاح التشفير (AES-256) – احفظه بأمان ولا ترفعه لـ Git ---
+ENCRYPTION_KEY=ضع_هنا_مفتاح_32_حرف_عشوائي_بال base64

@@ -1,0 +1,10 @@
+Add-Content -Path .gitignore -Value @"
+.env
+__pycache__/
+*.pyc
+*.pyo
+narmer.db
+venv/
+.venv/
+*.egg-info/
+"@
